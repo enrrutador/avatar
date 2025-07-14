@@ -6,32 +6,23 @@
   <title>SAVU - Asistencia Virtual Urbana</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <style>
-    /* Reset y layout */
     body, html {
-      margin: 0; padding: 0;
+      margin: 0;
       height: 100%;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #121212;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
       overflow: hidden;
-    }
-
-    /* Contenedor del avatar y contenido */
-    #ar-container {
-      flex: 1;
-      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       background-color: #000;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+      flex-direction: column;
     }
-
     model-viewer {
       width: 100vw;
       height: 100vh;
       background-color: #000;
     }
-
-    /* Panel de opciones */
     #panel {
       position: fixed;
       bottom: 0;
@@ -45,8 +36,6 @@
       z-index: 10;
       user-select: none;
     }
-
-    /* Botones */
     .btn {
       background: #222;
       border: none;
@@ -63,8 +52,6 @@
       background: #3a9bdc;
       outline: none;
     }
-
-    /* Panel de respuestas */
     #response {
       position: fixed;
       top: 10px;
@@ -83,21 +70,19 @@
   </style>
 </head>
 <body>
-  <div id="ar-container">
-    <model-viewer
-      id="avatar"
-      src="tu-avatar.glb"
-      alt="Avatar SAVU"
-      ar
-      ar-modes="webxr scene-viewer quick-look"
-      camera-controls
-      auto-rotate
-      environment-image="neutral"
-      exposure="1"
-      style="touch-action: manipulation;"
-    >
-    </model-viewer>
-  </div>
+  <model-viewer
+    id="avatar"
+    src="https://drive.google.com/uc?export=download&id=1hWifAmBbIzeIsd6hiUtXus0mhfFn2xMT"
+    alt="Avatar SAVU"
+    ar
+    ar-modes="webxr scene-viewer quick-look"
+    camera-controls
+    auto-rotate
+    environment-image="neutral"
+    exposure="1"
+    style="touch-action: manipulation;"
+  >
+  </model-viewer>
 
   <div id="panel" role="region" aria-label="Opciones de asistencia">
     <button class="btn" data-option="seguridad" aria-label="Seguridad">Seguridad</button>
@@ -124,7 +109,6 @@
         responseBox.textContent = message;
         responseBox.style.display = 'block';
 
-        // Ocultar mensaje después de 5 segundos
         clearTimeout(window.responseTimeout);
         window.responseTimeout = setTimeout(() => {
           responseBox.style.display = 'none';
@@ -134,3 +118,4 @@
   </script>
 </body>
 </html>
+
