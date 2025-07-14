@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SAVU - Asistencia Virtual Urbana</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <style>
+    /* Reset y layout */
+    body, html {
+      margin: 0; padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #121212;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Contenedor del avatar y contenido */
+    #ar-container {
+      flex: 1;
+      position: relative;
+      background-color: #000;
+    }
+
+    model-viewer {
+      width: 100vw;
+      height: 100vh;
+      background-color: #000;
+    }
+
+    /* Panel de opciones */
+    #panel {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(18, 18, 18, 0.95);
+      border-top: 1px solid #333;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      z-index: 10;
+      user-select: none;
+    }
+
+    /* Botones */
+    .btn {
+      background: #222;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      color: #eee;
+      font-size: 16px;
+      cursor: pointer;
+      flex: 1;
+      margin: 0 8px;
+      transition: background-color 0.3s;
+    }
+    .btn:hover, .btn:focus {
+      background: #3a9bdc;
+      outline: none;
+    }
+
+    /* Panel de respuestas */
+    #response {
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(58, 155, 220, 0.85);
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      max-width: 90vw;
+      text-align: center;
+      display: none;
+      z-index: 15;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="ar-container">
+    <model-viewer
+      id="avatar"
+      src="tu-avatar.glb"
+      alt="Avatar SAVU"
+      ar
+      ar-modes="webxr scene-viewer quick-look"
+      camera-controls
+      auto-rotate
+      environment-image="neutral"
+      exposure="1"
+      style="touch-action: manipulation;"
+    >
+    </model-viewer>
+  </div>
+
+  <div id="panel" role="region" aria-label="Opciones de asistencia">
+    <button class="btn" data-option="seguridad" aria-label="Seguridad">Seguridad</button>
+    <button class="btn" data-option="tramites" aria-label="Trámites">Trámites</button>
+    <button class="btn" data-option="reportes" aria-label="Reportes">Reportes</button>
+  </div>
+
+  <div id="response" role="alert" aria-live="polite"></div>
+
+  <script>
+    const responses = {
+      seguridad: "Para emergencias, llamá al 911 o al número local de seguridad.",
+      tramites: "Podés consultar horarios y requisitos de trámites en la web oficial del municipio.",
+      reportes: "Para reportar incidencias, usá el formulario de contacto o llamá a atención ciudadana."
+    };
+
+    const buttons = document.querySelectorAll('.btn');
+    const responseBox = document.getElementById('response');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-option');
+        const message = responses[key] || "Opción no disponible.";
+        responseBox.textContent = message;
+        responseBox.style.display = 'block';
+
+        // Ocultar mensaje después de 5 segundos
+        clearTimeout(window.responseTimeout);
+        window.responseTimeout = setTimeout(() => {
+          responseBox.style.display = 'none';
+        }, 5000);
+      });
+    });
+  </script>
+</body>
+</html>
